@@ -74,6 +74,7 @@ namespace Application.Services
                 {
                     throw new Exception("O registro não existe");
                 }
+                tb01DTO.ColDt = DateTime.Now;
                 var tb01Entity = _mapper.Map<Tb01>(tb01DTO);
                 await _repository.Update(tb01Entity);
                 return new MessageResponse(true, "Registro atualizado com sucesso!");
