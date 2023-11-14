@@ -44,6 +44,12 @@ namespace Application.Services
             }
         }
 
+        public async Task<int> Count()
+        {
+            var response = await _repository.Count();
+            return response;
+        }
+
         public async Task<MessageResponse> Create(Tb01DTO tb01DTO)
         {
             try

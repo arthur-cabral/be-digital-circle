@@ -21,14 +21,14 @@ namespace Infrastructure.Repositories
         public async Task<PagedList<Tb01>> GetAll(PaginationParameters paginationParameters)
         {
             const string sql = @"select
-                                   id,
-                                   col_texto as ColTexto,
-                                   col_dt as ColDt
-                               from TB01
-                               order by col_dt desc 
-                               limit @limit offset @offset";
+                       id,
+                       col_texto as ColTexto,
+                       col_dt as ColDt
+                   from TB01
+                   order by col_dt desc 
+                   limit @limit offset @offset";
 
-            var result = await Connection.QueryAsync<Tb01>(sql, new { limit = paginationParameters.PageSize, offset = paginationParameters.PageNumber }, Transaction);
+            var result = await Connection.QueryAsync<Tb01>(sql, new { limit = paginationParameters.PageSize, offset = paginationParameters.PageNumber * paginationParameters.PageSize }, Transaction);
             return PagedList<Tb01>.ToPagedList(
                 result.AsQueryable(),
                 paginationParameters.PageNumber,
@@ -46,6 +46,15 @@ namespace Infrastructure.Repositories
                                where id = @id";
 
             return await Connection.QueryFirstOrDefaultAsync<Tb01>(sql, new { id }, Transaction);
+        }
+
+        public async Task<int> Count()
+        {
+            const string sql = @"select
+                               count(*) 
+                               from tb01";
+
+            return await Connection.ExecuteScalarAsync<int>(sql, Transaction);
         }
 
         public async Task Create(Tb01 tb01)

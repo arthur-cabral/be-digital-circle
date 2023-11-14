@@ -12,6 +12,7 @@ namespace Domain.Interfaces
     {
         Task<PagedList<Tb01>> GetAll(PaginationParameters paginationParameters);
         Task<Tb01> GetById(int id);
+        Task<int> Count();
         Task Create(Tb01 tb01);
         Task Update(Tb01 tb01);
         Task Delete(int id);

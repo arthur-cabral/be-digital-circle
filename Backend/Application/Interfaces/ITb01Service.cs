@@ -13,6 +13,7 @@ namespace Application.Interfaces
     {
         Task<PagedList<Tb01DTO>> GetAll(PaginationParametersDTO paginationParametersDTO);
         Task<Tb01DTO> GetById(int id);
+        Task<int> Count();
         Task<MessageResponse> Create(Tb01DTO tb01);
         Task<MessageResponse> Update(Tb01DTO tb01);
         Task<MessageResponse> Delete(Tb01DTO tb01);

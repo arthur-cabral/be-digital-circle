@@ -26,7 +26,6 @@ namespace API.Controllers
 
             if (tb01 != null)
             {
-                AddingXPaginationHeaders(tb01);
                 return Ok(tb01);
             }
             else
@@ -35,23 +34,13 @@ namespace API.Controllers
             }
         }
 
-        private void AddingXPaginationHeaders(PagedList<Tb01DTO> tb01DTO)
+        [HttpGet("count")]
+        public async Task<ActionResult<int>> Count()
         {
-            if (tb01DTO != null)
-            {
-                var metadata = new
-                {
-                    tb01DTO.TotalCount,
-                    tb01DTO.PageSize,
-                    tb01DTO.CurrentPage,
-                    tb01DTO.TotalPages,
-                    tb01DTO.HasNext,
-                    tb01DTO.HasPrevious
-                };
-
-                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            }
+            var response = await _service.Count();
+            return Ok(response);
         }
+
 
         [HttpGet("{id}", Name = "GetById")]
         public async Task<ActionResult<Tb01DTO>> GetById(int id)
