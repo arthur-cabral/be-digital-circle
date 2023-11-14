@@ -20,7 +20,7 @@ namespace Domain.Pagination
         {
             TotalCount = count;
             PageSize = pageSize;
-            CurrentPage = pageNumber;
+            CurrentPage = (pageNumber < 1) ? 1 : pageNumber;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
             AddRange(items);
@@ -28,6 +28,16 @@ namespace Domain.Pagination
 
         public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
         {
+            if (pageNumber < 1)
+            {
+                pageNumber = 1;
+            }
+
+            if (pageSize < 1)
+            {
+                pageSize = 10;
+            }
+
             var count = source.Count();
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
